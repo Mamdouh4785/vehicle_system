@@ -1,0 +1,1 @@
+{"version":2,"defects":[],"times":{"SystemCoreTest::testSpeedViolationInsideCampus":0.007,"SystemCoreTest::testSupervisorAccessToAdminPage":0,"SystemCoreTest::testVehicleStatusWhenAssigned":0.001,"SystemCoreTest::testEmployeeOdometerValidation":0.01,"SystemCoreTest::testMaintenanceAlertTrigger":0,"SystemCoreTest::testVehicleStatusTranslation":0.001}}

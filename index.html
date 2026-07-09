@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlPage">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">تسجيل الدخول - نظام إدارة المركبات</title>
+    
+    <link rel="stylesheet" href="mainPage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* تنسيق بسيط لزر إظهار كلمة المرور عشان يتناسب مع التصميم الجديد */
+        .password-wrapper { position: relative; }
+        .password-wrapper i {
+            position: absolute;
+            top: 42px; /* لضبطها مع حقل الإدخال */
+            left: 16px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        [dir="ltr"] .password-wrapper i { left: auto; right: 16px; }
+        .password-wrapper i:hover { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <div class="controls-bar">
+        <button id="langBtn" class="control-btn">English</button>
+        <button id="themeBtn" class="control-btn">🌙 الوضع الداكن</button>
+    </div>
+
+    <div class="login-wrapper">
+        <div class="login-box">
+            <img src="IMG_0433.png" alt="Logo" class="login-logo" onerror="this.style.display='none'">
+            
+            <h2 id="loginHeader" class="login-title">تسجيل الدخول</h2>
+            <p id="subHeader" class="login-subtitle">مرحباً بك في نظام إدارة ومتابعة صيانة المركبات</p>
+
+            <div id="error-message" class="error-msg"></div>
+
+            <form action="login.php" method="POST" id="loginForm">
+                
+                <div class="form-group">
+                    <label for="username" id="userLabel" class="form-label">اسم المستخدم</label>
+                    <input type="text" id="username" name="username" required placeholder="أدخل اسم المستخدم" autocomplete="username" class="form-input">
+                </div>
+
+                <div class="form-group password-wrapper">
+                    <label for="password" id="passLabel" class="form-label">كلمة المرور</label>
+                    <input type="password" id="password" name="password" required placeholder="أدخل كلمة المرور" autocomplete="current-password" class="form-input">
+                    <i class="fa-solid fa-eye" id="togglePasswordIcon" onclick="togglePasswordVisibility()"></i>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    <span id="loginBtnText">دخول</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // كود إظهار وإخفاء كلمة المرور
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('password');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+    
+    <script src="mainPage.js"></script>
+</body>
+</html>

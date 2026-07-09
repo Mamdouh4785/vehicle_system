@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+
+/* =========================================
+    1. الجذور والمتغيرات (Variables)
+========================================= */
+:root {
+    /* الألوان الأساسية - الوضع الفاتح */
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    
+    /* الخلفيات */
+    --bg-body: #f8fafc; /* لون الخلفية العام */
+    --bg-card: #ffffff; /* لون البطاقات */
+    --bg-input: #f1f5f9; /* لون حقول الإدخال */
+    
+    /* النصوص */
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    /* الحدود (Borders) */
+    --border-color: #e2e8f0;
+    
+    /* ألوان الحالات (للسيارات والتقارير) */
+    --success: #10b981; /* متاح / سليم */
+    --warning: #f59e0b;
+    --danger: #ef4444; /* متعطل / خطأ */
+    --info: #3b82f6; /* قيد الاستخدام */
+
+    /* تأثيرات (Shadows & Transitions) */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius-md: 12px;
+    --radius-lg: 16px;
+}
+
+/* الوضع الداكن 🌙 (ينقلب كل شيء تلقائياً) */
+[data-theme="dark"] {
+    --bg-body: #0f172a;
+    --bg-card: #1e293b;
+    --bg-input: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 25px -3px rgb(0 0 0 / 0.5);
+}
+
+/* =========================================
+    2. الإعدادات العامة (Globals)
+========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+}
+
+/* =========================================
+    3. أزرار التحكم العلوية (اللغة / الوضع)
+========================================= */
+.controls-bar {
+    position: fixed;
+    top: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+[dir="rtl"] .controls-bar { right: 20px; }
+[dir="ltr"] .controls-bar { left: 20px; }
+
+.control-btn {
+    padding: 8px 16px;
+    background: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+.control-btn:hover {
+    background: var(--bg-input);
+    transform: translateY(-2px);
+}
+.control-btn.danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
+.control-btn.danger:hover { background: rgba(239, 68, 68, 0.1); }
+
+/* =========================================
+    4. نظام التخطيط (Layout & Grid)
+========================================= */
+/* حاوية رئيسية في وسط الشاشة */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 90px 20px 40px; /* مسافة 90 من فوق عشان الأزرار العلوية */
+}
+
+/* حاوية صغيرة لصفحات (الدخول / التعديل) */
+.container-sm {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 90px 20px 40px;
+}
+
+/* 🚀 كود الشبكة السحري (متجاوب مع كل الشاشات بدون تعب) */
+.auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+}
+
+/* =========================================
+    5. البطاقات (Cards)
+========================================= */
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    padding: 30px 20px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+.card-icon {
+    font-size: 3.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+.card-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* =========================================
+    6. النماذج وحقول الإدخال (Forms)
+========================================= */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: right;
+}
+[dir="ltr"] .form-group { text-align: left; }
+
+.form-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.form-input, .form-select {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+    outline: none;
+}
+.form-input:focus, .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    background-color: var(--bg-card);
+}
+
+/* =========================================
+    7. الأزرار (Buttons)
+========================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: var(--radius-md);
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* =========================================
+    8. تصميم شاشة تسجيل الدخول (Login Box)
+========================================= */
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+.login-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+.login-logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
+.login-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+.login-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+.error-msg {
+    color: var(--danger);
+    background: rgba(239, 68, 68, 0.1);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    display: none;
+}
