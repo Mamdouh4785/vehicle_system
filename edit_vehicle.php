@@ -13,8 +13,10 @@ $msg = "";
 $msg_type = "";
 
 // جلب بيانات المركبة
-$sql = "SELECT * FROM vehicles WHERE plate_ar = '$plate_id' OR plate_en = '$plate_id' LIMIT 1";
-$result = $conn->query($sql);
+$stmt = $conn->prepare("SELECT * FROM vehicles WHERE plate_ar = ? OR plate_en = ? LIMIT 1");
+$stmt->bind_param("ss", $plate_id, $plate_id);
+$stmt->execute();
+$result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $car = $result->fetch_assoc();
 } else {
@@ -24,61 +26,86 @@ if ($result->num_rows > 0) {
 $current_assigned = !empty($car['assigned_user_id']) ? $car['assigned_user_id'] : 0;
 
 // جلب الموظفين الذين ليس لديهم سيارة حالياً + السائق الحالي لهذه السيارة فقط
-$users_res = $conn->query("
+$users_stmt = $conn->prepare("
     SELECT id, full_name 
     FROM users 
     WHERE role = 'employee' 
     AND (
         id NOT IN (SELECT assigned_user_id FROM vehicles WHERE assigned_user_id IS NOT NULL) 
-        OR id = $current_assigned
+        OR id = ?
     ) 
     ORDER BY full_name ASC
 ");
+$users_stmt->bind_param("i", $current_assigned);
+$users_stmt->execute();
+$users_res = $users_stmt->get_result();
 // حفظ البيانات
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_POST['vehicle_id'];
-    $assigned_user_id = !empty($_POST['assigned_user_id']) ? $_POST['assigned_user_id'] : "NULL";
-    
+    $id = (int) $_POST['vehicle_id'];
+    $assigned_user_id = !empty($_POST['assigned_user_id']) ? (int) $_POST['assigned_user_id'] : null;
+
     $status = $_POST['status'];
-    if ($assigned_user_id !== "NULL" && $status !== 'broken') {
+    if ($assigned_user_id !== null && $status !== 'broken') {
         $status = 'in-use';
-    } elseif ($assigned_user_id === "NULL" && $status !== 'broken') {
+    } elseif ($assigned_user_id === null && $status !== 'broken') {
         $status = 'available';
     }
 
     $driver_ar = "شاغرة";
-    if ($assigned_user_id !== "NULL") {
-        $user_data = $conn->query("SELECT full_name FROM users WHERE id = $assigned_user_id")->fetch_assoc();
-        $driver_ar = $user_data['full_name'];
+    if ($assigned_user_id !== null) {
+        $q_driver = $conn->prepare("SELECT full_name FROM users WHERE id = ?");
+        $q_driver->bind_param("i", $assigned_user_id);
+        $q_driver->execute();
+        $driver_row = $q_driver->get_result()->fetch_assoc();
+        if ($driver_row) { $driver_ar = $driver_row['full_name']; }
     }
 
-    $insurance = $_POST['insurance'];
+    $insurance   = $_POST['insurance'];
     $last_serves = $_POST['last_serves'];
-    $engine_ar = $_POST['engine_ar'];
-    $map_link = $_POST['map_link'];
-    
-    $image_query = "";
+    $engine_ar   = $_POST['engine_ar'];
+    $map_link    = $_POST['map_link'];
+
+    // الصورة: تُحدَّث فقط لو رفع المستخدم صورة جديدة صالحة، وإلا نبقي على القديمة
+    $image_name = $car['image']; // القيمة الحالية كافتراضي
     if (!empty($_FILES['image_file']['name'])) {
         $target_dir = "images/";
         if (!file_exists($target_dir)) { mkdir($target_dir, 0755, true); }
-        
-        $image_name = time() . '_' . basename($_FILES['image_file']['name']);
-        if (move_uploaded_file($_FILES['image_file']['tmp_name'], $target_dir . $image_name)) { 
-            $image_query = ", image = '$image_name'";
+
+        $img_ext = strtolower(pathinfo($_FILES['image_file']['name'], PATHINFO_EXTENSION));
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $img_real_mime = finfo_file($finfo, $_FILES['image_file']['tmp_name']);
+        finfo_close($finfo);
+
+        if (in_array($img_ext, ALLOWED_IMAGE_EXTENSIONS, true) && in_array($img_real_mime, ALLOWED_IMAGE_MIME_TYPES, true)) {
+            $new_image_name = time() . '_' . uniqid() . '.' . $img_ext;
+            if (move_uploaded_file($_FILES['image_file']['tmp_name'], $target_dir . $new_image_name)) {
+                $image_name = $new_image_name;
+            } else {
+                $msg = "❌ فشل حفظ الصورة الجديدة، تم حفظ باقي البيانات بدون تغيير الصورة.";
+            }
+        } else {
+            $msg = "❌ نوع الملف غير مسموح، تم تجاهل الصورة الجديدة.";
         }
     }
 
-    $sql_update = "UPDATE vehicles SET 
-                    assigned_user_id = $assigned_user_id,
-                    driver_ar = '$driver_ar',
-                    status = '$status', 
-                    insurance = '$insurance', 
-                    last_serves = '$last_serves', 
-                    engine_ar = '$engine_ar', 
-                    map_link = '$map_link' $image_query 
-                    WHERE id=$id";
+    $stmt_update = $conn->prepare("
+        UPDATE vehicles SET 
+            assigned_user_id = ?,
+            driver_ar = ?,
+            status = ?, 
+            insurance = ?, 
+            last_serves = ?, 
+            engine_ar = ?, 
+            map_link = ?,
+            image = ?
+        WHERE id = ?
+    ");
+    $stmt_update->bind_param(
+        "issssssi" . "i",
+        $assigned_user_id, $driver_ar, $status, $insurance, $last_serves, $engine_ar, $map_link, $image_name, $id
+    );
 
-    if ($conn->query($sql_update) === TRUE) {
+    if ($stmt_update->execute()) {
         header("Location: mainPageDetail.php?plate=" . urlencode($plate_id) . "&success=1");
         exit();
     } else {
