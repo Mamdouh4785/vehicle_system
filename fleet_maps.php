@@ -26,7 +26,7 @@ if ($result && $result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-label-ar="غرفة العمليات - الخرائط" data-label-en="Operations Room - Maps">غرفة العمليات - الخرائط</title>
-    <link rel="stylesheet" href="mainPage.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/mainPage.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         .map-grid {
@@ -154,7 +154,7 @@ if ($result && $result->num_rows > 0) {
         <?php endif; ?>
     </div>
 
-    <script src="mainPage.js"></script>
+    <script src="assets/js/mainPage.js"></script>
     <script>
         // تفعيل الترجمة في هذه الصفحة
         const langBtn = document.getElementById('langBtn');

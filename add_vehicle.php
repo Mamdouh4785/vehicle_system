@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إضافة مركبة</title>
-    <link rel="stylesheet" href="mainPage.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/mainPage.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         /* تنسيقات مربعات اللوحة عشان تبرز وتصير واضحة */
@@ -201,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-<script src="mainPage.js"></script>
+<script src="assets/js/mainPage.js"></script>
 <script>
     const allowedAr = ['أ','ب','ح','د','ر','س','ص','ط','ع','ق','ك','ل','م','ن','هـ','و','ى'];
 

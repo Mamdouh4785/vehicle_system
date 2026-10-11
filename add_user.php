@@ -85,8 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>إضافة موظف جديد</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mainPage.css?v=3">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/mainPage.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -258,6 +258,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     </script>
-    <script src="mainPage.js"></script>
+    <script src="assets/js/mainPage.js"></script>
 </body>
 </html>

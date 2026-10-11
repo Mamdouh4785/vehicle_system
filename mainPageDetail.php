@@ -54,7 +54,7 @@ if (!$car_data) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل المركبة</title>
-    <link rel="stylesheet" href="mainPage.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/mainPage.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
@@ -174,6 +174,6 @@ if (!$car_data) {
         </div>
     </div>
 
-    <script src="mainPage.js"></script>
+    <script src="assets/js/mainPage.js"></script>
 </body>
 </html>

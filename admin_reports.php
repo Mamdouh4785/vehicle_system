@@ -114,8 +114,8 @@ $type_icons     = ['daily'=>'📋','delivery'=>'🚚','issue'=>'⚠️'];
 <title data-label-ar="التقارير — لوحة الإدارة" data-label-en="Reports — Admin Panel">التقارير — لوحة الإدارة</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="mainPage.css?v=6">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/mainPage.css?v=6">
 
 <style>
 /* 🚀 الحل الجذري للألوان المتغيرة (Dark/Light) */
@@ -505,7 +505,7 @@ body {
   </div>
 </div>
 
-<script src="mainPage.js"></script>
+<script src="assets/js/mainPage.js"></script>
 <script>
 // كود عرض الصور المكبرة
 function openLb(src) {

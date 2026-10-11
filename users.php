@@ -61,8 +61,8 @@ function buildQueryString($page_num) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>إدارة الموظفين</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="mainPage.css?v=3">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/mainPage.css?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -260,7 +260,7 @@ function buildQueryString($page_num) {
         <?php endif; ?>
 
     </div>
-    <script src="mainPage.js"></script>
+    <script src="assets/js/mainPage.js"></script>
     <script>
     function delUser(id) {
         Swal.fire({
