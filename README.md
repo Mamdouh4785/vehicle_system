@@ -13,10 +13,4 @@
 - `tests/`: اختبارات PHPUnit.
 - `vendor/`: اعتماديات Composer المثبتة.
 
-## التشغيل
-
-ضع المشروع داخل `D:\\xampp\\htdocs`، شغّل Apache وMySQL من XAMPP، ثم افتح `http://localhost/vehicle_system/`. اضبط بيانات قاعدة البيانات في `config.php` حسب بيئتك.
-
-## الاعتماديات
-
 اعتماديات PHP مسجلة في `composer.json` و`composer.lock`، وملفاتها المثبتة داخل `vendor/`.
